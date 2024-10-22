@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج الطلب</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>نتائج الطلب</h1>
+        </header>
+        
+        <section class="order-details">
+            <div class="company-info">
+                <h2>تفاصيل الشركة</h2>
+                <p><strong>اسم الشركة:</strong> <span id="displayCompanyName"></span></p>
+                <p><strong>البريد الإلكتروني:</strong> <span id="displayCompanyEmail"></span></p>
+                <p><strong>العنوان:</strong> <span id="displayAddress"></span>, <span id="displayCity"></span>, <span id="displayCountry"></span></p>
+                <p><strong>الرمز البريدي:</strong> <span id="displayZipCode"></span></p>
+            </div>
+
+            <div class="vendor-info">
+                <h2>تفاصيل المورد</h2>
+                <p><strong>اسم المورد:</strong> <span id="displayVendorName"></span></p>
+                <p><strong>البريد الإلكتروني:</strong> <span id="displayVendorEmail"></span></p>
+                <p><strong>العنوان:</strong> <span id="displayVendorAddress"></span>, <span id="displayVendorCity"></span>, <span id="displayVendorCountry"></span></p>
+                <p><strong>الرمز البريدي:</strong> <span id="displayVendorZip"></span></p>
+            </div>
+
+            <div class="purchase-order-info">
+                <h2>تفاصيل أمر الشراء</h2>
+                <p><strong>رقم أمر الشراء:</strong> <span id="displayPurchaseOrderNumber"></span></p>
+                <p><strong>تاريخ أمر الشراء:</strong> <span id="displayPurchaseOrderDate"></span></p>
+                <p><strong>تاريخ التسليم:</strong> <span id="displayDeliveryDate"></span></p>
+                <p><strong>طريقة الشحن:</strong> <span id="displayShippingMethod"></span></p>
+                <p><strong>شروط الشحن:</strong> <span id="displayShippingTerms"></span></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>العنصر</th>
+                        <th>الوصف</th>
+                        <th>الكمية</th>
+                        <th>السعر</th>
+                        <th>المجموع</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTableBody">
+                    <!-- Items will be populated here -->
+                </tbody>
+            </table>
+
+            <div class="totals">
+                <p><strong>المجموع الفرعي:</strong> <span id="displaySubtotal">0.00</span> جنيه</p>
+                <p><strong>الضريبة:</strong> <span id="displayTax">0.00</span> جنيه</p>
+                <p><strong>الإجمالي:</strong> <span id="displayTotal">0.00</span> جنيه</p>
+            </div>
+        </section>
+
+        <button onclick="window.print()">طباعة</button>
+    </div>
+
+    <script>
+        // Function to display form data on the result page
+        function populateOrderDetails() {
+            document.getElementById('displayCompanyName').innerText = localStorage.getItem('companyName');
+            document.getElementById('displayCompanyEmail').innerText = localStorage.getItem('companyEmail');
+            document.getElementById('displayAddress').innerText = localStorage.getItem('address');
+            document.getElementById('displayCity').innerText = localStorage.getItem('city');
+            document.getElementById('displayCountry').innerText = localStorage.getItem('country');
+            document.getElementById('displayZipCode').innerText = localStorage.getItem('zipCode');
+            
+            document.getElementById('displayVendorName').innerText = localStorage.getItem('vendorName');
+            document.getElementById('displayVendorEmail').innerText = localStorage.getItem('vendorEmail');
+            document.getElementById('displayVendorAddress').innerText = localStorage.getItem('vendorAddress');
+            document.getElementById('displayVendorCity').innerText = localStorage.getItem('vendorCity');
+            document.getElementById('displayVendorCountry').innerText = localStorage.getItem('vendorCountry');
+            document.getElementById('displayVendorZip').innerText = localStorage.getItem('vendorZip');
+
+            document.getElementById('displayPurchaseOrderNumber').innerText = localStorage.getItem('purchaseOrderNumber');
+            document.getElementById('displayPurchaseOrderDate').innerText = localStorage.getItem('purchaseOrderDate');
+            document.getElementById('displayDeliveryDate').innerText = localStorage.getItem('deliveryDate');
+            document.getElementById('displayShippingMethod').innerText = localStorage.getItem('shippingMethod');
+            document.getElementById('displayShippingTerms').innerText = localStorage.getItem('shippingTerms');
+
+            const itemCount = parseInt(localStorage.getItem('itemCount'));
+            let itemsHTML = '';
+            for (let i = 1; i <= itemCount; i++) {
+                itemsHTML += `
+                    <tr>
+                        <td>${localStorage.getItem('item' + i)}</td>
+                        <td>${localStorage.getItem('desc' + i)}</td>
+                        <td>${localStorage.getItem('quantity' + i)}</td>
+                        <td>${localStorage.getItem('price' + i)}</td>
+                        <td>${localStorage.getItem('amount' + i)}</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('itemsTableBody').innerHTML = itemsHTML;
+
+            document.getElementById('displaySubtotal').innerText = localStorage.getItem('subtotal');
+            document.getElementById('displayTax').innerText = localStorage.getItem('tax');
+            document.getElementById('displayTotal').innerText = localStorage.getItem('total');
+        }
+
+        // Call function to populate the order details
+        populateOrderDetails();
+
+        
+    </script>
+</body>
+</html>
